@@ -1,13 +1,4 @@
-interface Review {
-  bookId: string;
-  content: string;
-  author: string;
-}
-interface ReviewResponse extends Review {
-  id: number;
-  createdAt: Date;
-}
-const reviewBook = async (
+const postReviewBook = async (
   review: Review
 ): Promise<ReviewResponse | undefined> => {
   try {
@@ -16,7 +7,9 @@ const reviewBook = async (
       body: JSON.stringify(review),
     });
     if (!response.ok)
-      throw new Error("리뷰를 작성하는 도중 오류가 발생했습니다.");
+      throw new Error(
+        `리뷰를 작성하는 도중 오류가 발생했습니다. ${response.statusText}`
+      );
     return response.json();
   } catch (error) {
     console.error(error);
@@ -24,4 +17,4 @@ const reviewBook = async (
   }
 };
 
-export default reviewBook;
+export default postReviewBook;

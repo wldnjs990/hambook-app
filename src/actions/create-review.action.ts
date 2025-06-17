@@ -1,6 +1,6 @@
 "use server";
 
-import reviewBook from "@/app/lib/review-book";
+import postReviewBook from "@/app/lib/post-review-book";
 
 export default async function createReviewAction(formData: FormData) {
   const bookId = formData.get("bookId")?.toString();
@@ -10,7 +10,7 @@ export default async function createReviewAction(formData: FormData) {
   if (!bookId || !content || !author) return;
   try {
     const req = { bookId, content, author };
-    const response = await reviewBook(req);
+    const response = await postReviewBook(req);
     console.log(response?.id);
   } catch (error) {
     console.error(error);
