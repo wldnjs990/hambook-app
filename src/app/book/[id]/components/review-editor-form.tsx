@@ -1,8 +1,20 @@
+"use client";
+
 import createReviewAction from "@/actions/create-review.action";
+import { useActionState, useEffect } from "react";
+import { twMerge } from "tailwind-merge";
 
 export default function ReviewEditorForm({ bookId }: { bookId: string }) {
+  const [state, formAction, isPending] = useActionState(
+    createReviewAction,
+    null
+  );
+  useEffect(() => {
+    if (state && !state.status) alert(state.error);
+  }, [state]);
+
   return (
-    <form action={createReviewAction} className="flex flex-col gap-1 text-md">
+    <form action={formAction} className="flex flex-col gap-1 text-md">
       {/* input 태그의 require은 입력값이 없을경우를 방지해주는 코드임 */}
       {/* 입력을 안할시에 흔히 보이던 경고문구가 뜨면서 제출이 안됨 */}
       {/* 사용자에게 보이지 않는 input 태그를 만들때 hidden과 readonly를 사용한다 */}
@@ -23,9 +35,14 @@ export default function ReviewEditorForm({ bookId }: { bookId: string }) {
         />
         <button
           type="submit"
-          className="border border-gray-200 py-2 px-4 rounded-md bg-sky-600 text-white"
+          disabled={isPending}
+          className={twMerge(
+            `border border-gray-200 py-2 px-4 rounded-md text-white ${
+              isPending ? "bg-gray-300" : "bg-sky-600"
+            }`
+          )}
         >
-          작성하기
+          {isPending ? "..." : "작성하기"}
         </button>
       </div>
     </form>

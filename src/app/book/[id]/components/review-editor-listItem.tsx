@@ -1,4 +1,8 @@
+import ReviewItemDeleteButton from "@/app/components/review-item-delete-button";
+
 export default function ReviewEditorListItem({
+  id,
+  bookId,
   content,
   author,
   createdAt,
@@ -13,7 +17,7 @@ export default function ReviewEditorListItem({
         </div>
         <div className="text-sm flex gap-2 text-gray-500">
           <p>{date}</p>
-          <button className="cursor-pointer ">삭제하기</button>
+          <ReviewItemDeleteButton reviewId={id} bookId={bookId} />
         </div>
       </div>
       <hr />
